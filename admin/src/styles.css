@@ -1,1 +1,73 @@
-/* You can add global styles to this file, and also import other style files */
+* { box-sizing: border-box; }
+body { margin: 0; font-family: -apple-system, system-ui, "Segoe UI", sans-serif; background: #f4f6f9; color: #1d2433; }
+h1 { font-size: 1.35rem; margin: 0; }
+h2 { font-size: 1rem; margin: 0 0 .75rem; }
+.muted { color: #6b7280; }
+.small { font-size: .8rem; }
+.text-danger { color: #c62828; font-weight: 600; }
+.text-good { color: #2e7d32; }
+
+/* Buttons */
+.btn { background: #1d2433; color: #fff; border: 0; padding: .65rem 1rem; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; }
+.btn-auto { width: auto; }
+.btn:disabled, .btn-small:disabled { opacity: .5; cursor: not-allowed; }
+.btn-small { background: #1565c0; color: #fff; border: 0; padding: .35rem .8rem; border-radius: 6px; font-weight: 600; cursor: pointer; align-self: flex-start; }
+.btn-outline { background: none; border: 1px solid #cbd2dc; padding: .35rem .8rem; border-radius: 6px; cursor: pointer; }
+
+/* Messages */
+.alert { background: #fdecea; color: #b71c1c; padding: .6rem .8rem; border-radius: 6px; margin: .5rem 0; font-size: .9rem; }
+.toast { background: #e8f5e9; color: #1b5e20; padding: .6rem .8rem; border-radius: 6px; margin: .5rem 0; font-size: .9rem; }
+
+/* Login */
+.login-page { min-height: 100vh; display: grid; place-items: center; }
+.login-card { background: #fff; padding: 2rem; border-radius: 12px; width: 340px; box-shadow: 0 4px 20px rgba(0,0,0,.08); display: flex; flex-direction: column; gap: .9rem; }
+.login-card h1 { font-size: 1.8rem; }
+
+/* Forms */
+label { display: flex; flex-direction: column; gap: .3rem; font-size: .82rem; font-weight: 600; }
+input, select, textarea { padding: .55rem; border: 1px solid #cbd2dc; border-radius: 6px; font-size: .92rem; font-family: inherit; background: #fff; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; margin-bottom: 1rem; }
+.span-2 { grid-column: span 2; }
+.form-actions { display: flex; justify-content: space-between; align-items: center; }
+.stack { display: flex; flex-direction: column; gap: .5rem; margin-top: .75rem; }
+.filters { display: flex; gap: 1rem; align-items: flex-end; margin: 1rem 0; }
+.filters label { min-width: 140px; }
+.checkbox { flex-direction: row; align-items: center; gap: .4rem; font-weight: 500; }
+
+/* Layout */
+.header { display: flex; justify-content: space-between; align-items: center; padding: .9rem 2rem; background: #fff; border-bottom: 1px solid #e5e8ee; }
+.brand { font-size: 1.1rem; }
+.header-right { display: flex; align-items: center; gap: 1rem; }
+.user { font-weight: 600; }
+.content { display: block; padding: 1.5rem 2rem; max-width: 1200px; margin: 0 auto; }
+.page-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1rem; }
+.page-head p { margin: .3rem 0 0; }
+.panel { background: #fff; border-radius: 10px; padding: 1.1rem 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+.back { display: inline-block; margin-bottom: 1rem; color: #1565c0; text-decoration: none; font-size: .9rem; }
+
+/* Table */
+.table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.table th { text-align: left; color: #6b7280; font-weight: 600; padding: .5rem; border-bottom: 1px solid #e5e8ee; }
+.table td { padding: .6rem .5rem; border-bottom: 1px solid #f0f2f5; }
+.clickable { cursor: pointer; }
+.clickable:hover { background: #f7f9fc; }
+.row-breached { background: #fff5f5; }
+
+/* Pills and status */
+.pill { padding: 2px 8px; border-radius: 999px; font-size: .72rem; font-weight: 700; color: #fff; }
+.pill-P1 { background: #c62828; } .pill-P2 { background: #ef6c00; } .pill-P3 { background: #1565c0; } .pill-P4 { background: #607d8b; }
+.status { font-size: .75rem; padding: 2px 8px; border-radius: 4px; background: #eef0f3; }
+.status-OPEN { background: #fff3e0; color: #e65100; }
+.status-IN_PROGRESS { background: #e3f2fd; color: #0d47a1; }
+.status-RESOLVED { background: #e8f5e9; color: #1b5e20; }
+
+/* Detail page */
+.detail-title { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+.facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem 1.5rem; margin-bottom: 1rem; font-size: .9rem; }
+.fact-label { display: block; color: #6b7280; font-size: .75rem; margin-bottom: .2rem; }
+.description { background: #f7f9fc; padding: .75rem; border-radius: 6px; margin: 0 0 1rem; }
+.detail-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 1.25rem; margin-top: 1.25rem; }
+.note { border-bottom: 1px solid #f0f2f5; padding: .6rem 0; }
+.timeline { padding-left: 1.2rem; margin: 0 0 1rem; font-size: .9rem; }
+.timeline li { margin-bottom: .4rem; }
+.resolved-box { background: #e8f5e9; color: #1b5e20; padding: .75rem; border-radius: 6px; font-size: .9rem; }

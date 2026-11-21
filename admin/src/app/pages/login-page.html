@@ -1,0 +1,22 @@
+<div class="login-page">
+  <form class="login-card" (ngSubmit)="submit()" #loginForm="ngForm">
+    <h1>PulseOps</h1>
+    <p class="muted">Operator Console</p>
+
+    <label>
+      Username
+      <input name="username" [(ngModel)]="username" required autocomplete="username" />
+    </label>
+    <label>
+      Password
+      <input name="password" type="password" [(ngModel)]="password" required autocomplete="current-password" />
+    </label>
+
+    @if (error()) {
+      <div class="alert">{{ error() }}</div>
+    }
+    <button class="btn" type="submit" [disabled]="loading() || loginForm.invalid">
+      {{ loading() ? 'Signing in…' : 'Sign in' }}
+    </button>
+  </form>
+</div>

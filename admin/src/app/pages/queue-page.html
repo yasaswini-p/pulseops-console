@@ -1,0 +1,122 @@
+<section class="page-head">
+  <div>
+    <h1>Incident queue</h1>
+    <p class="muted">
+      {{ counts().total }} shown · {{ counts().breached }} breached · {{ counts().mine }} assigned to you
+    </p>
+  </div>
+  <button class="btn btn-auto" (click)="showCreate.set(!showCreate())">
+    {{ showCreate() ? 'Cancel' : '+ New incident' }}
+  </button>
+</section>
+
+@if (message()) {
+  <div class="toast">{{ message() }}</div>
+}
+@if (error()) {
+  <div class="alert">{{ error() }}</div>
+}
+
+@if (showCreate()) {
+  <form class="panel form-grid" (ngSubmit)="create()" #createForm="ngForm">
+    <label class="span-2">
+      Title
+      <input name="title" [(ngModel)]="draft.title" required minlength="3" placeholder="Short summary of the problem" />
+    </label>
+    <label>
+      Priority
+      <select name="priority" [(ngModel)]="draft.priority">
+        @for (p of priorities; track p) {
+          <option [value]="p">{{ p }}</option>
+        }
+      </select>
+    </label>
+    <label>
+      Team
+      <select name="team" [(ngModel)]="draft.team">
+        @for (t of teams; track t) {
+          <option [value]="t">{{ t }}</option>
+        }
+      </select>
+    </label>
+    <label class="span-2">
+      Description
+      <textarea name="description" [(ngModel)]="draft.description" rows="2"></textarea>
+    </label>
+    <div class="span-2 form-actions">
+      <span class="muted small">The SLA deadline is set automatically from the priority.</span>
+      <button class="btn btn-auto" type="submit" [disabled]="createForm.invalid">Create incident</button>
+    </div>
+  </form>
+}
+
+<div class="filters">
+  <label>
+    Status
+    <select [(ngModel)]="filters.status" (ngModelChange)="load()">
+      <option value="active">Active</option>
+      <option value="OPEN">Open</option>
+      <option value="IN_PROGRESS">In progress</option>
+      <option value="RESOLVED">Resolved</option>
+      <option value="">All</option>
+    </select>
+  </label>
+  <label>
+    Priority
+    <select [(ngModel)]="filters.priority" (ngModelChange)="load()">
+      <option value="">All</option>
+      @for (p of priorities; track p) {
+        <option [value]="p">{{ p }}</option>
+      }
+    </select>
+  </label>
+  <label>
+    Team
+    <select [(ngModel)]="filters.team" (ngModelChange)="load()">
+      <option value="">All</option>
+      @for (t of teams; track t) {
+        <option [value]="t">{{ t }}</option>
+      }
+    </select>
+  </label>
+  <label class="checkbox">
+    <input type="checkbox" [(ngModel)]="filters.mine" (ngModelChange)="load()" />
+    Only my incidents
+  </label>
+</div>
+
+<div class="panel">
+  @if (loading() && incidents().length === 0) {
+    <p class="muted">Loading…</p>
+  } @else if (incidents().length === 0) {
+    <p class="muted">No incidents match these filters.</p>
+  } @else {
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th><th>Title</th><th>Priority</th><th>Team</th>
+          <th>Status</th><th>Assignee</th><th>SLA</th><th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (i of incidents(); track i.incidentId) {
+          <tr class="clickable" [routerLink]="['/incidents', i.incidentId]"
+              [class.row-breached]="i.status !== 'RESOLVED' && i.slaBreached">
+            <td><strong>{{ i.incidentId }}</strong></td>
+            <td>{{ i.title }}</td>
+            <td><app-priority-badge [priority]="i.priority" /></td>
+            <td>{{ i.team }}</td>
+            <td><span class="status status-{{ i.status }}">{{ i.status | statusLabel }}</span></td>
+            <td>{{ i.assignee ?? 'Unassigned' }}</td>
+            <td><app-sla-countdown [dueAt]="i.slaDueAt" [resolvedAt]="i.resolvedAt" /></td>
+            <td>
+              @if (i.status === 'OPEN') {
+                <button class="btn-small" (click)="take(i, $event)">Take</button>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

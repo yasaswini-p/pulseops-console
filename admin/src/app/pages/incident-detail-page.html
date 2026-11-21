@@ -1,0 +1,78 @@
+<a routerLink="/incidents" class="back">← Back to queue</a>
+
+@if (error()) {
+  <div class="alert">{{ error() }}</div>
+}
+
+@if (incident(); as i) {
+  <section class="panel">
+    <div class="detail-title">
+      <app-priority-badge [priority]="i.priority" />
+      <h1>{{ i.incidentId }} · {{ i.title }}</h1>
+    </div>
+
+    <div class="facts">
+      <div><span class="fact-label">Status</span><span class="status status-{{ i.status }}">{{ i.status | statusLabel }}</span></div>
+      <div><span class="fact-label">Team</span>{{ i.team }}</div>
+      <div><span class="fact-label">Assignee</span>{{ i.assignee ?? 'Unassigned' }}</div>
+      <div><span class="fact-label">SLA</span><app-sla-countdown [dueAt]="i.slaDueAt" [resolvedAt]="i.resolvedAt" /></div>
+      <div><span class="fact-label">Created</span>{{ i.createdAt | date: 'd MMM, h:mm a' }} by {{ i.createdBy ?? 'system' }}</div>
+      @if (i.escalated) {
+        <div><span class="fact-label">Escalated</span><span class="text-danger">to {{ i.escalatedTo }}</span></div>
+      }
+    </div>
+
+    @if (i.description) {
+      <p class="description">{{ i.description }}</p>
+    }
+    @if (i.status === 'OPEN') {
+      <button class="btn btn-auto" (click)="take()" [disabled]="busy()">Take ownership</button>
+    }
+  </section>
+
+  <div class="detail-grid">
+    <section class="panel">
+      <h2>Work notes ({{ i.notes?.length ?? 0 }})</h2>
+      @for (n of i.notes ?? []; track n.createdAt) {
+        <div class="note">
+          <div class="muted small"><strong>{{ n.authorName }}</strong> · {{ n.createdAt | date: 'd MMM, h:mm:ss a' }}</div>
+          <div>{{ n.text }}</div>
+        </div>
+      } @empty {
+        <p class="muted">No notes yet.</p>
+      }
+
+      @if (i.status !== 'RESOLVED') {
+        <form class="stack" (ngSubmit)="addNote()">
+          <textarea name="note" [(ngModel)]="noteText" rows="2" placeholder="Add a work note…"></textarea>
+          <button class="btn-small" type="submit" [disabled]="busy() || noteText.trim().length < 2">Add note</button>
+        </form>
+      }
+    </section>
+
+    <section class="panel">
+      <h2>History</h2>
+      <ol class="timeline">
+        @for (h of i.history ?? []; track $index) {
+          <li>
+            <strong>{{ h.status | statusLabel }}</strong>
+            <span class="muted small"> · {{ h.at | date: 'd MMM, h:mm:ss a' }}{{ h.by ? ' · ' + h.by : '' }}</span>
+          </li>
+        }
+      </ol>
+
+      @if (canResolve()) {
+        <h2>Resolve</h2>
+        <form class="stack" (ngSubmit)="resolve()">
+          <textarea name="resolution" [(ngModel)]="resolution" rows="2" placeholder="What fixed it?"></textarea>
+          <button class="btn btn-auto" type="submit" [disabled]="busy() || resolution.trim().length < 5">Resolve incident</button>
+        </form>
+      }
+      @if (i.status === 'RESOLVED') {
+        <div class="resolved-box">
+          Resolved {{ i.resolvedAt | date: 'd MMM, h:mm a' }}: {{ i.resolution ?? '—' }}
+        </div>
+      }
+    </section>
+  </div>
+}
