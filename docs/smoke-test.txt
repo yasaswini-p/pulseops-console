@@ -1,0 +1,21 @@
+PulseOps Console smoke test — Wed Nov 25 13:49:02 IST 2026
+------------------------------------------------------------------------
+1. API health check                                  PASS
+2. Manager dashboard served at /                     PASS
+3. Operator console served at /console/              PASS
+4. Angular deep link /console/incidents              PASS
+5. Unknown API route returns 404                     PASS
+6. API request without login rejected                PASS
+7. Operator login issues a token                     PASS
+8. Manager login issues a token                      PASS
+9. Operator creates an incident                      PASS
+10. Operator takes ownership                         PASS
+11. Second take rejected (conflict)                  PASS
+12. Operator adds a work note                        PASS
+13. Manager sees the operator's change               PASS
+14. Operator blocked from analytics                  PASS
+15. Manager reads analytics                          PASS
+16. Manager blocked from creating incidents          PASS
+17. Operator resolves the incident                   PASS
+------------------------------------------------------------------------
+Result: 17 passed, 0 failed  (incident used: INC-1009)

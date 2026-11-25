@@ -1,0 +1,26 @@
+{
+  "name": "pulseops-console",
+  "version": "1.0.0",
+  "description": "PulseOps Console: Express API, React manager dashboard and Angular operator console",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build:web": "npm --prefix web run build",
+    "build:admin": "npm --prefix admin run build -- --base-href /console/",
+    "build": "npm run build:web && npm run build:admin",
+    "start": "npm --prefix api start",
+    "test:smoke": "bash scripts/smoke-test.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yasaswini-p/pulseops-console.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yasaswini-p/pulseops-console/issues"
+  },
+  "homepage": "https://github.com/yasaswini-p/pulseops-console#readme"
+}
